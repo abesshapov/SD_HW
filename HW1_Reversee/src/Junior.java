@@ -270,7 +270,7 @@ public class Junior extends Player {
      * @return Лучший возможный ход.
      */
     Turn findBestTurn(int[][] possibleTurnsCoordinates, Field field, ChipColour chipColour) {
-        Turn bestTurn = new Turn(-1, -1, chipColour, -13);
+        Turn bestTurn = new Turn(-1, -1, chipColour, 0);
         for (int[] coordinates : possibleTurnsCoordinates) {
             if ((coordinates[0] == 0  && coordinates[1] == 0) || (coordinates[0] == 0 && coordinates[1]
                     == field.size - 1)
