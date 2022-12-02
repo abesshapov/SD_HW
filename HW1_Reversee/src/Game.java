@@ -47,6 +47,10 @@ public class Game {
                     personAgainstSeniorComputerGameMode();
                     break;
                 case (4):
+                    System.out.println("Выбран режим компьютер против продвинутого компьютера");
+                    computerAgainstSeniorComputer();
+                    break;
+                case (5):
                     leaderboard();
                     break;
                 default:
@@ -76,14 +80,15 @@ public class Game {
         System.out.println("1 - режим игрок против игрока");
         System.out.println("2 - режим игрок против компьютера (легкий)");
         System.out.println("3 - режим игрок против компьютера (продвинутый)");
-        System.out.println("4 - таблица лучших результатов за сессию");
+        System.out.println("4 - режим компьютер против опытного компьютера");
+        System.out.println("5 - таблица лучших результатов за сессию");
         int gameModeNumber = -1;
         while (gameModeNumber == -1) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Выбранный режим (0 для выхода из игры): ");
             try {
                 gameModeNumber = scanner.nextInt();
-                if (gameModeNumber < 0 || gameModeNumber > 4) {
+                if (gameModeNumber < 0 || gameModeNumber > 5) {
                     System.out.println("Такого режима нет");
 
                 }
@@ -165,6 +170,26 @@ public class Game {
     }
 
     /**
+     * Режим игры компьютер против опытного компьютера.
+     */
+    void computerAgainstSeniorComputer() {
+        if (this.currentSessionPlayers[2] == null) {
+            this.currentSessionPlayers[2] = new Junior(ChipColour.WHITE);
+        }
+        if (this.currentSessionPlayers[3] == null) {
+            this.currentSessionPlayers[3] = new Senior(ChipColour.WHITE);
+        }
+        if (Math.random() <= 0.5) {
+            this.currentSessionPlayers[2].chipColour = ChipColour.WHITE;
+            this.currentSessionPlayers[3].chipColour = ChipColour.BLACK;
+        } else {
+            this.currentSessionPlayers[2].chipColour = ChipColour.BLACK;
+            this.currentSessionPlayers[3].chipColour = ChipColour.WHITE;
+        }
+        gameProcess(2, 3);
+    }
+
+    /**
      * Определение нужды отмены хода или двух ходов.
      * @param turnsMade Количество ходов, выполненных в течение текущей игры.
      * @return Количество отменяемых ходов.
@@ -231,8 +256,16 @@ public class Game {
             }
             if (this.currentSessionPlayers[firstPlayerNumber].chipColour == activeColour) {
                 wasTurnMade = firstPlayerTurn(firstPlayerNumber, gameField, activeColour);
+                if (!wasTurnMade && !gameField.isTurnPossible()) {
+                    System.out.println("Ни один игрок не может выполнить ход");
+                    break;
+                }
             } else {
                 wasTurnMade = secondPlayerTurn(secondPlayerNumber, gameField, activeColour);
+                if (!wasTurnMade && !gameField.isTurnPossible()) {
+                    System.out.println("Ни один игрок не может выполнить ход");
+                    break;
+                }
             }
             gameField.drawField();
             if (activeColour == ChipColour.WHITE) {
