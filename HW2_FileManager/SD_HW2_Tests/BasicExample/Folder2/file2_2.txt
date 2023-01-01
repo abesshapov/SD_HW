@@ -1,0 +1,4 @@
+contents of file2_2
+require Folder2/file2_1.txt
+requires both files
+require Folder1/file1_1.txt

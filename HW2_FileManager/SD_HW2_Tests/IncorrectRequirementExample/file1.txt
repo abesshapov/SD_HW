@@ -1,0 +1,2 @@
+require nonExistentFile.txt
+this file is not present in the root directory

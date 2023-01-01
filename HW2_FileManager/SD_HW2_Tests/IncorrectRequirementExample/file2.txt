@@ -1,0 +1,2 @@
+require file1.txt
+correct requirement with existent file
